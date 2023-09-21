@@ -1,0 +1,37 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: product-management-api
+  profiles:
+    active: dev
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+  datasource:
+    username: dbadmin
+    password: P@ss0wrd
+    url: jdbc:h2:mem:spring-micros-dev-db
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/FullStackApp
+          jwk-set-uri: http://localhost:8080/realms/FullStackApp/protocol/openid-connect/certs
+
+jwt:
+  auth:
+    converter:
+      resource-id: fullstack-springboot-client
+      principal-attribute: preferred_username
+
+logging:
+  level:
+    org.springframework.security: DEBUG

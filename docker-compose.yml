@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  keycloak:
+    image: jboss/keycloak:latest
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+    ports:
+      - 8080:8080
+
+  springboot-app:
+    build:
+      context: ./product-springboot
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8080
+    depends_on:
+      - keycloak
+
+  react-app:
+    build:
+      context: ./product-ui
+      dockerfile: Dockerfile
+    ports:
+      - 3000:80
+    depends_on:
+      - springboot-app
